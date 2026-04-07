@@ -1,0 +1,109 @@
+ generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+ 
+// ENUMS
+ 
+enum Role {
+  ADMIN
+  USER
+}
+
+enum TaskStatus {
+  PENDING
+  PROCESSING
+  DONE
+}
+
+enum AuditAction {
+  CREATE_TASK
+  UPDATE_TASK
+  DELETE_TASK
+  ASSIGN_TASK
+  CHANGE_STATUS
+}
+
+ 
+// USER MODEL
+ 
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role
+
+  // Relations
+  assignedTasks Task[]     @relation("AssignedTasks")
+  assignedByTasks Task[]   @relation("AssignedByTasks")
+  auditLogs     AuditLog[] @relation("ActorLogs")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+ 
+// TASK MODEL
+ 
+model Task {
+  id          String      @id @default(uuid())
+  title       String
+  description String
+  status      TaskStatus  @default(PENDING)
+
+  // Assigned TO 
+  assignedToId String?
+  assignedTo   User? @relation("AssignedTasks", fields: [assignedToId], references: [id])
+
+  // Assigned BY 
+  assignedById String
+  assignedBy   User @relation("AssignedByTasks", fields: [assignedById], references: [id])
+
+  // Audit logs
+  auditLogs AuditLog[] @relation("TaskAuditLogs")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([assignedToId])
+  @@index([assignedById])
+  @@index([status])
+}
+ 
+// AUDIT LOG MODEL (CORE)
+ 
+
+model AuditLog {
+  id        String      @id @default(uuid())
+
+  // Who performed action
+  actorId   String
+  actor     User        @relation("ActorLogs", fields: [actorId], references: [id])
+
+  // What happened
+  action    AuditAction
+  entity    String      // e.g., "TASK"
+  entityId  String
+
+  // Change tracking
+  before    Json?
+  after     Json?
+  summary   String?
+
+  // Optional task relation for task-centric audit history
+  taskId    String?
+  task      Task?       @relation("TaskAuditLogs", fields: [taskId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@index([actorId])
+  @@index([taskId])
+  @@index([entity, entityId])
+  @@index([createdAt])
+}
