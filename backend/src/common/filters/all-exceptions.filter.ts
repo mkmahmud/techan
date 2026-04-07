@@ -59,6 +59,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
         const resp = exceptionResponse as Record<string, unknown>
         message = (resp.message as string) || message
         code = (resp.code as string) || code
+        if (resp.details !== undefined) {
+          details = resp.details
+        }
         // Class-validator errors come as array
         if (Array.isArray(resp.message)) {
           details = resp.message

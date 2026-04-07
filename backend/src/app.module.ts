@@ -13,6 +13,8 @@ import { TransformInterceptor } from './common/interceptors/transform.intercepto
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { JwtAuthGuard } from './common/guards'
 import { AppLogger } from './common/logger/logger.service'
+import { AuthModule } from './modules/auth/auth.module'
+import { UserModule } from './modules/user/user.module'
 
 @Module({
   imports: [
@@ -42,6 +44,8 @@ import { AppLogger } from './common/logger/logger.service'
 
     // ── Feature Modules ───────────────────────────────────────────────────────
     PrismaModule,
+    AuthModule,
+    UserModule,
   ],
 
   controllers: [HealthController],
