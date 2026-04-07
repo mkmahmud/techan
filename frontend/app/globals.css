@@ -1,0 +1,135 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-roboto-mono);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --brand-1: #6367ff;
+  --brand-2: #8494ff;
+  --brand-3: #c9beff;
+  --brand-4: #ffdbfd;
+
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: var(--brand-1);
+  --primary-foreground: #ffffff;
+  --secondary: var(--brand-2);
+  --secondary-foreground: #10133a;
+  --muted: #f4f2ff;
+  --muted-foreground: #5a5f8f;
+  --accent: var(--brand-4);
+  --accent-foreground: #3a315f;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #ddd9ff;
+  --input: #ddd9ff;
+  --ring: var(--brand-2);
+  --chart-1: var(--brand-1);
+  --chart-2: var(--brand-2);
+  --chart-3: var(--brand-3);
+  --chart-4: var(--brand-4);
+  --chart-5: #b7a8ff;
+  --radius: 0.625rem;
+  --sidebar: #f7f5ff;
+  --sidebar-foreground: #252842;
+  --sidebar-primary: var(--brand-1);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--brand-4);
+  --sidebar-accent-foreground: #3a315f;
+  --sidebar-border: #ddd9ff;
+  --sidebar-ring: var(--brand-2);
+}
+
+.dark {
+  --background: #131425;
+  --foreground: #f2eeff;
+  --card: #1b1d34;
+  --card-foreground: #f2eeff;
+  --popover: #1b1d34;
+  --popover-foreground: #f2eeff;
+  --primary: var(--brand-2);
+  --primary-foreground: #14172c;
+  --secondary: #2b2f57;
+  --secondary-foreground: #ece8ff;
+  --muted: #252846;
+  --muted-foreground: #b7addf;
+  --accent: #3a2f58;
+  --accent-foreground: #ffe6fe;
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: #353a63;
+  --input: #353a63;
+  --ring: var(--brand-3);
+  --chart-1: var(--brand-2);
+  --chart-2: var(--brand-3);
+  --chart-3: var(--brand-4);
+  --chart-4: #a79cff;
+  --chart-5: #6a70ff;
+  --sidebar: #171930;
+  --sidebar-foreground: #f2eeff;
+  --sidebar-primary: var(--brand-2);
+  --sidebar-primary-foreground: #14172c;
+  --sidebar-accent: #322a4d;
+  --sidebar-accent-foreground: #ffe6fe;
+  --sidebar-border: #353a63;
+  --sidebar-ring: var(--brand-3);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
