@@ -15,6 +15,8 @@ import { JwtAuthGuard } from './common/guards'
 import { AppLogger } from './common/logger/logger.service'
 import { AuthModule } from './modules/auth/auth.module'
 import { UserModule } from './modules/user/user.module'
+import { AuditLogsModule } from './modules/audit-logs/audit-logs.module'
+import { TasksModule } from './modules/tasks/tasks.module'
 
 @Module({
   imports: [
@@ -46,6 +48,8 @@ import { UserModule } from './modules/user/user.module'
     PrismaModule,
     AuthModule,
     UserModule,
+    AuditLogsModule,
+    TasksModule,
   ],
 
   controllers: [HealthController],
