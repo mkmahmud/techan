@@ -24,4 +24,15 @@ export class AuthController {
             },
         }
     }
+
+    @Post('logout')
+    logout(@Res({ passthrough: true }) res: Response) {
+        res.clearCookie('auth_token', this.authService.getCookieOptions())
+
+        return {
+            session: {
+                authenticated: false,
+            },
+        }
+    }
 }
