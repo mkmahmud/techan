@@ -9,7 +9,7 @@ import { Prisma, Role } from '@prisma/client'
 
 import { hashPassword } from '@/common/utils/password.util'
 import { PrismaService } from '@/prisma/prisma.service'
-import type { CreateUserDto } from './schemas/user.schema'
+import type { CreateUserDto, ListUsersQuery } from './schemas/user.schema'
 
 @Injectable()
 export class UserService {
@@ -76,7 +76,7 @@ export class UserService {
         }
     }
 
-    async getAllNonAdminUsers(requesterRole: string) {
+    async getAllNonAdminUsers(requesterRole: string, query: ListUsersQuery) {
         const normalizedRole = requesterRole.toUpperCase()
         const allowedRoles = [Role.ADMIN, 'SUPERADMIN']
 
@@ -87,21 +87,40 @@ export class UserService {
             })
         }
 
-        return this.prisma.user.findMany({
-            where: {
-                role: Role.USER,
+        const skip = (query.page - 1) * query.limit
+
+        const where: Prisma.UserWhereInput = {
+            role: Role.USER,
+        }
+
+        const [items, total] = await this.prisma.$transaction([
+            this.prisma.user.findMany({
+                where,
+                skip,
+                take: query.limit,
+                orderBy: {
+                    createdAt: 'desc',
+                },
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    role: true,
+                    createdAt: true,
+                    updatedAt: true,
+                },
+            }),
+            this.prisma.user.count({ where }),
+        ])
+
+        return {
+            items,
+            pagination: {
+                page: query.page,
+                limit: query.limit,
+                total,
+                totalPages: Math.ceil(total / query.limit),
             },
-            orderBy: {
-                createdAt: 'desc',
-            },
-            select: {
-                id: true,
-                name: true,
-                email: true,
-                role: true,
-                createdAt: true,
-                updatedAt: true,
-            },
-        })
+        }
     }
 }

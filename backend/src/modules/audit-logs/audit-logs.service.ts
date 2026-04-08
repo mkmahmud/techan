@@ -71,10 +71,23 @@ export class AuditLogsService {
                 select: {
                     id: true,
                     actorId: true,
+                    actor: {
+                        select: {
+                            id: true,
+                            email: true,
+                            name: true,
+                        },
+                    },
                     action: true,
                     entity: true,
                     entityId: true,
                     taskId: true,
+                    task: {
+                        select: {
+                            id: true,
+                            title: true,
+                        },
+                    },
                     summary: true,
                     before: true,
                     after: true,
@@ -107,10 +120,23 @@ export class AuditLogsService {
             select: {
                 id: true,
                 actorId: true,
+                actor: {
+                    select: {
+                        id: true,
+                        email: true,
+                        name: true,
+                    },
+                },
                 action: true,
                 entity: true,
                 entityId: true,
                 taskId: true,
+                task: {
+                    select: {
+                        id: true,
+                        title: true,
+                    },
+                },
                 summary: true,
                 before: true,
                 after: true,
