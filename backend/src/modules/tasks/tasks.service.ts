@@ -212,8 +212,7 @@ export class TasksService {
         const where = isAdmin
             ? {
                 status: query.status,
-                assignedToId: query.assignedToId,
-                assignedById: query.assignedById,
+                assignedById: actorId,
             }
             : {
                 status: query.status,
@@ -226,6 +225,30 @@ export class TasksService {
                 skip,
                 take: query.limit,
                 orderBy: { createdAt: 'desc' },
+                select: {
+                    id: true,
+                    title: true,
+                    description: true,
+                    status: true,
+                    assignedToId: true,
+                    assignedTo: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                        },
+                    },
+                    assignedById: true,
+                    assignedBy: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                        },
+                    },
+                    createdAt: true,
+                    updatedAt: true,
+                },
             }),
             this.prisma.task.count({ where }),
         ])
@@ -244,6 +267,30 @@ export class TasksService {
     async getTaskById(taskId: string, actorId: string, requesterRole: string) {
         const task = await this.prisma.task.findUnique({
             where: { id: taskId },
+            select: {
+                id: true,
+                title: true,
+                description: true,
+                status: true,
+                assignedToId: true,
+                assignedTo: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                    },
+                },
+                assignedById: true,
+                assignedBy: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                    },
+                },
+                createdAt: true,
+                updatedAt: true,
+            },
         })
 
         if (!task) {
@@ -254,10 +301,14 @@ export class TasksService {
         }
 
         const isAdmin = requesterRole.toUpperCase() === Role.ADMIN
-        if (!isAdmin && task.assignedToId !== actorId) {
+        const canAccess = isAdmin
+            ? task.assignedById === actorId
+            : task.assignedToId === actorId
+
+        if (!canAccess) {
             throw new ForbiddenException({
                 code: 'FORBIDDEN',
-                message: 'You can only access your assigned tasks',
+                message: 'You can only access your own tasks',
             })
         }
 
