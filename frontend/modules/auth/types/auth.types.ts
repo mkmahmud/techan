@@ -21,3 +21,12 @@ export type LoginResponse = {
         }
     }
 }
+
+export type LogoutResponse = {
+    success: boolean
+    data: {
+        session: {
+            authenticated: false
+        }
+    }
+}
