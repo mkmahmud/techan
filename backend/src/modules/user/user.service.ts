@@ -75,4 +75,33 @@ export class UserService {
             })
         }
     }
+
+    async getAllNonAdminUsers(requesterRole: string) {
+        const normalizedRole = requesterRole.toUpperCase()
+        const allowedRoles = [Role.ADMIN, 'SUPERADMIN']
+
+        if (!allowedRoles.includes(normalizedRole)) {
+            throw new ForbiddenException({
+                code: 'FORBIDDEN',
+                message: 'Only admin and super admin can view users',
+            })
+        }
+
+        return this.prisma.user.findMany({
+            where: {
+                role: Role.USER,
+            },
+            orderBy: {
+                createdAt: 'desc',
+            },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+                createdAt: true,
+                updatedAt: true,
+            },
+        })
+    }
 }

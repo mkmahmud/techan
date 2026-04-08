@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common'
+import { Body, Controller, Get, Post } from '@nestjs/common'
 
 import type { JwtPayload } from '@/common/decorators/current-user.decorator'
 import { CurrentUser } from '@/common/decorators/current-user.decorator'
@@ -16,5 +16,10 @@ export class UserController {
         @CurrentUser('role') currentUserRole: JwtPayload['role'],
     ) {
         return this.userService.createUser(body, currentUserRole)
+    }
+
+    @Get()
+    async getAllUsers(@CurrentUser('role') currentUserRole: JwtPayload['role']) {
+        return this.userService.getAllNonAdminUsers(currentUserRole)
     }
 }
