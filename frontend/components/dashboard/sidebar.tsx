@@ -39,7 +39,7 @@ export function Sidebar({ role }: SidebarProps) {
         {
             label: "Audit Logs",
             icon: History,
-            href: "/admin/logs",
+            href: "/dashboard/audit_logs",
             roles: ["ADMIN"],
         },
         {
