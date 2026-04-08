@@ -32,6 +32,8 @@ export async function updateTaskStatus(taskId: string, payload: UpdateTaskStatus
 }
 
 export async function getAssignableUsers() {
-    const { data } = await api.get<UsersListResponse>('/users')
-    return data.data
+    const { data } = await api.get<UsersListResponse>('/users', {
+        params: { page: 1, limit: 100 },
+    })
+    return data.data.items
 }
