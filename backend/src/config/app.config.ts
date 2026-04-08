@@ -3,7 +3,7 @@ import { z } from 'zod'
 // ─── Environment Schema (Zod) ─────────────────────────────────────────────────
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  PORT: z.coerce.number().default(8000),
+  PORT: z.coerce.number().default(5000),
   APP_URL: z.string().url().default('http://localhost:5000'),
   FRONTEND_URL: z.string().url().default('http://localhost:3000'),
 

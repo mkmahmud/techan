@@ -22,7 +22,7 @@ async function bootstrap() {
   const config = app.get(ConfigService)
   const logger = new Logger('Bootstrap')
   const isDev = config.get<string>('NODE_ENV') !== 'production'
-  const port = config.get<number>('PORT') ?? 8000
+  const port = config.get<number>('PORT') ?? 5000
 
   // ── Logger ────────────────────────────────────────────────────────────────
   app.useLogger(app.get(AppLogger))
