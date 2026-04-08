@@ -1,7 +1,5 @@
-import React from 'react'
+import { TasksPageContent } from '@/modules/tasks'
 
-export default function Tasks() {
-  return (
-    <div>page</div>
-  )
+export default function TasksPage() {
+  return <TasksPageContent />
 }
