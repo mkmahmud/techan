@@ -1,9 +1,14 @@
-import { Body, Controller, Get, Post } from '@nestjs/common'
+import { Body, Controller, Get, Post, Query } from '@nestjs/common'
 
 import type { JwtPayload } from '@/common/decorators/current-user.decorator'
 import { CurrentUser } from '@/common/decorators/current-user.decorator'
 import { ZodValidationPipe } from '@/common/pipes/zod-validation.pipe'
-import { createUserSchema, type CreateUserDto } from './schemas/user.schema'
+import {
+    createUserSchema,
+    listUsersSchema,
+    type CreateUserDto,
+    type ListUsersQuery,
+} from './schemas/user.schema'
 import { UserService } from './user.service'
 
 @Controller('users')
@@ -19,7 +24,10 @@ export class UserController {
     }
 
     @Get()
-    async getAllUsers(@CurrentUser('role') currentUserRole: JwtPayload['role']) {
-        return this.userService.getAllNonAdminUsers(currentUserRole)
+    async getAllUsers(
+        @Query(new ZodValidationPipe(listUsersSchema)) query: ListUsersQuery,
+        @CurrentUser('role') currentUserRole: JwtPayload['role'],
+    ) {
+        return this.userService.getAllNonAdminUsers(currentUserRole, query)
     }
 }
