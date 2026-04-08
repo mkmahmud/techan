@@ -45,7 +45,7 @@ export function Sidebar({ role }: SidebarProps) {
         {
             label: "Manage Users",
             icon: Users,
-            href: "/admin/users",
+            href: "/dashboard/users",
             roles: ["ADMIN"],
         },
     ];

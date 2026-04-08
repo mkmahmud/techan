@@ -68,5 +68,8 @@ export type UserListItem = {
 
 export type UsersListResponse = {
     success: true
-    data: UserListItem[]
+    data: {
+        items: UserListItem[]
+        pagination: Pagination
+    }
 }
